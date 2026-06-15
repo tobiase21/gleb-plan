@@ -325,276 +325,91 @@
     <h1>🍽 Jedálniček</h1>
 
     <div class="warn">
-      <b>Cieľ:</b> ~2 450 kcal/deň, deficit cca 600 kcal voči odhadovanej spotrebe (~3 050 kcal pri 130kg a ~10 000 krokoch/deň). Vysoký proteín (cca 190g) pre ochranu svalovej hmoty pri chudnutí tuku. <b>Bez rýb</b> — omega 3 ide formou doplnku (pozri tab Suplementy). Pri lieku na tlak (Co-Lisinostad) sa <b>vyhýbaj soľným náhradám typu "no-salt"</b> (obsahujú draslík).
+      <b>Cieľ:</b> ~2 300 kcal/deň, deficit cca 600 kcal voči odhadovanej spotrebe (~3 050 kcal pri 130kg a ~10 000 krokoch/deň). Vysoký proteín (~190g) pre ochranu svalovej hmoty pri chudnutí tuku. <b>Bez rýb, bravčového a hovädzieho</b> — len kuracie a morčacie. Pri lieku na tlak (Co-Lisinostad) sa <b>vyhýbaj soľným náhradám typu "no-salt"</b> (obsahujú draslík).
+    </div>
+
+    <div class="card">
+      <h3>🍳 Raňajky — každý deň (rýchle, bez varenia)</h3>
+      <p><b>Cottage cheese + vajcia</b><br>
+      200g Cottage cheese (4%) <span class="small">(samostatne, nemiešať)</span><br>
+      3 vajcia (uvarené natvrdo alebo praženica) + paradajka/paprika podľa chuti</p>
+      <p class="small">~370 kcal · B 43g · S 8g · T 20g</p>
+    </div>
+
+    <div class="warn">
+      <b>Varí sa 2× týždenne</b> — väčšia dávka na 3-4 dni dopredu (meal prep). Jedlo A na Po-Št, Jedlo B na Pi-Ne. Obed aj večera v rámci jedného "jedla" sa varia naraz, len v iných porciách/úpravách mäsa, aby to nebolo úplne identické.
     </div>
 
     <div class="pills" id="jed-pills">
-      <div class="pill active" data-day="po" onclick="switchPill('jed-pills','po')">PO</div>
-      <div class="pill" data-day="ut" onclick="switchPill('jed-pills','ut')">UT</div>
-      <div class="pill" data-day="st" onclick="switchPill('jed-pills','st')">ST</div>
-      <div class="pill" data-day="stv" onclick="switchPill('jed-pills','stv')">ŠT</div>
-      <div class="pill" data-day="pi" onclick="switchPill('jed-pills','pi')">PI</div>
-      <div class="pill" data-day="so" onclick="switchPill('jed-pills','so')">SO</div>
-      <div class="pill" data-day="ne" onclick="switchPill('jed-pills','ne')">NE</div>
+      <div class="pill active" data-day="a" onclick="switchPill('jed-pills','a')">Jedlo A · Po–Št</div>
+      <div class="pill" data-day="b" onclick="switchPill('jed-pills','b')">Jedlo B · Pi–Ne</div>
     </div>
 
     <div id="jed-pills-content">
 
-      <!-- PONDELOK -->
-      <div class="daycontent active" id="jed-pills-po">
+      <!-- JEDLO A -->
+      <div class="daycontent active" id="jed-pills-a">
         <div class="card">
-          <h3>Raňajky</h3>
-          <p><b>Tvarohová kaša s ovsom a vajcami</b><br>
-          60g ovsených vločiek varených na vode/mlieku, 250g tvarohu (light), 2 celé vajcia (uvarené natvrdo, pridať na vrch), 1 banán, štipka skorice.</p>
-          <p class="small">~620 kcal · B 52g · S 68g · T 14g</p>
+          <h3>Obed A</h3>
+          <p><b>Kuracie prsia so zemiakmi a zeleninou</b><br>
+          200g kuracích pŕs (na panvici, trocha oleja), 300g zemiakov (varené), brokolica + mrkva (dusená, korenie, cesnak).</p>
+          <p class="small">~680 kcal · B 60g · S 65g · T 14g</p>
         </div>
         <div class="card">
-          <h3>Obed</h3>
-          <p><b>Kuracie prsia s ryžou a zeleninou</b><br>
-          180g kuracích pŕs (na panvici, trocha oleja), 150g ryže natural (uvarená), brokolica + paprika (dusená, korenie, cesnak).</p>
-          <p class="small">~650 kcal · B 58g · S 70g · T 12g</p>
+          <h3>Večera A</h3>
+          <p><b>Morčacie prsia so zemiakmi a šalátom</b><br>
+          200g morčacích pŕs (na panvici/pečené), 250g zemiakov (varené/pečené), zeleninový šalát (paradajka, uhorka, olivový olej 1 ČL).</p>
+          <p class="small">~600 kcal · B 58g · S 48g · T 10g</p>
         </div>
-        <div class="card">
-          <h3>Snack</h3>
-          <p><b>Grécky jogurt s vlašskými orechmi</b><br>
-          250g gréckeho jogurtu (light/0%), 20g vlašských orechov, lyžička medu.</p>
-          <p class="small">~280 kcal · B 24g · S 16g · T 13g</p>
-        </div>
-        <div class="card">
-          <h3>Večera</h3>
-          <p><b>Mleté hovädzie so zemiakmi</b><br>
-          200g chudého mletého hovädzieho (do 10% tuku), 250g zemiakov (varené), cibuľa, paprika, paradajková omáčka domáca (bez cukru).</p>
-          <p class="small">~620 kcal · B 50g · S 55g · T 18g</p>
-        </div>
-        <div class="card">
-          <h3>Snack 2 (voľný)</h3>
-          <p><b>Tvaroh/cottage cheese + zelenina</b><br>
-          150g cottage cheese, mrkva/paprika na pochrumkanie.</p>
-          <p class="small">~150 kcal · B 18g · S 8g · T 4g</p>
-        </div>
-        <p class="small"><b>Súčet dňa:</b> ~2 320 kcal · B 202g · S 217g · T 61g</p>
+        <p class="small"><b>Príprava (várka 1):</b> Uvar/oupeč naraz väčšie množstvo kuracích pŕs a morčacích pŕs (napr. 800g + 800g na 4 dni), zemiaky priprav čerstvé alebo nahrej deň-dva dopredu, zeleninu dusenú/šalát ideálne čerstvé.</p>
       </div>
 
-      <!-- UTOROK -->
-      <div class="daycontent" id="jed-pills-ut">
+      <!-- JEDLO B -->
+      <div class="daycontent" id="jed-pills-b">
         <div class="card">
-          <h3>Raňajky</h3>
-          <p><b>Vaječná omeleta s tvrdým syrom a celozrnným chlebom</b><br>
-          3 celé vajcia, 30g syra (light), 2 plátky celozrnného chleba, paradajka.</p>
-          <p class="small">~520 kcal · B 35g · S 38g · T 24g</p>
+          <h3>Obed B</h3>
+          <p><b>Morčacie prsia so zemiakmi a zeleninou</b><br>
+          200g morčacích pŕs (na panvici), 300g zemiakov (varené), cuketa + paprika (dusená).</p>
+          <p class="small">~640 kcal · B 62g · S 65g · T 9g</p>
         </div>
         <div class="card">
-          <h3>Obed</h3>
-          <p><b>Bravčová panenka s pohánkou</b><br>
-          180g bravčovej panenky (chudá časť, na panvici), 150g pohánky (uvarenej), cuketa + mrkva (dusená).</p>
-          <p class="small">~640 kcal · B 55g · S 68g · T 15g</p>
+          <h3>Večera B</h3>
+          <p><b>Kuracie stehná so zemiakmi a šalátom</b><br>
+          200g kuracích stehien bez kosti a kože (pečené), 250g zemiakov (pečené), zeleninový šalát s olivovým olejom.</p>
+          <p class="small">~620 kcal · B 54g · S 48g · T 18g</p>
         </div>
-        <div class="card">
-          <h3>Snack</h3>
-          <p><b>Proteínový shake</b><br>
-          1 odmerka (30g) proteínu (whey alebo rastlinný), 250ml mlieka/rast. mlieka, 1 jablko.</p>
-          <p class="small">~300 kcal · B 30g · S 30g · T 6g</p>
-        </div>
-        <div class="card">
-          <h3>Večera</h3>
-          <p><b>Kuracie stehná pečené so šalátom</b><br>
-          200g kuracích stehien bez kosti (pečené, bez kože), zemiaky 200g (pečené), zeleninový šalát (paradajka, uhorka, olivový olej 1 ČL).</p>
-          <p class="small">~600 kcal · B 52g · S 48g · T 22g</p>
-        </div>
-        <div class="card">
-          <h3>Snack 2 (voľný)</h3>
-          <p><b>Ovocie + arašidové maslo</b><br>
-          1 banán, 15g arašidového masla (100%).</p>
-          <p class="small">~190 kcal · B 5g · S 25g · T 8g</p>
-        </div>
-        <p class="small"><b>Súčet dňa:</b> ~2 250 kcal · B 177g · S 209g · T 75g</p>
-      </div>
-
-      <!-- STREDA -->
-      <div class="daycontent" id="jed-pills-st">
-        <div class="card">
-          <h3>Raňajky</h3>
-          <p><b>Tvarohová kaša s ovsom a vajcami</b> (rovnaké ako Pondelok)<br>
-          60g ovsených vločiek, 250g tvarohu (light), 2 vajcia natvrdo, 1 banán, skorica.</p>
-          <p class="small">~620 kcal · B 52g · S 68g · T 14g</p>
-        </div>
-        <div class="card">
-          <h3>Obed</h3>
-          <p><b>Hovädzie chilli s ryžou</b><br>
-          180g mletého hovädzieho (do 10% tuku), 100g červenej fazule (z konzervy, scedená), paradajková omáčka, cibuľa, korenie, 150g ryže.</p>
-          <p class="small">~680 kcal · B 50g · S 78g · T 16g</p>
-        </div>
-        <div class="card">
-          <h3>Snack</h3>
-          <p><b>Grécky jogurt s ovsenými vločkami</b><br>
-          250g gréckeho jogurtu, 30g ovsených vločiek, lyžička medu, skorica.</p>
-          <p class="small">~290 kcal · B 26g · S 35g · T 6g</p>
-        </div>
-        <div class="card">
-          <h3>Večera</h3>
-          <p><b>Kuracie prsia s pečenou zeleninou</b><br>
-          180g kuracích pŕs, 250g pečenej zeleniny (cuketa, paprika, cibuľa, olivový olej 1 ČL), 150g varených zemiakov.</p>
-          <p class="small">~570 kcal · B 48g · S 55g · T 13g</p>
-        </div>
-        <div class="card">
-          <h3>Snack 2 (voľný)</h3>
-          <p><b>Cottage cheese + orechy</b><br>
-          150g cottage cheese, 15g mandlí.</p>
-          <p class="small">~190 kcal · B 19g · S 6g · T 9g</p>
-        </div>
-        <p class="small"><b>Súčet dňa:</b> ~2 350 kcal · B 195g · S 242g · T 58g</p>
-      </div>
-
-      <!-- ŠTVRTOK -->
-      <div class="daycontent" id="jed-pills-stv">
-        <div class="card">
-          <h3>Raňajky</h3>
-          <p><b>Vaječná omeleta s tvrdým syrom a celozrnným chlebom</b> (rovnaké ako Utorok)<br>
-          3 vajcia, 30g syra light, 2 plátky celozrnného chleba, paradajka.</p>
-          <p class="small">~520 kcal · B 35g · S 38g · T 24g</p>
-        </div>
-        <div class="card">
-          <h3>Obed</h3>
-          <p><b>Morčacie prsia s pohánkou a zeleninou</b><br>
-          180g morčacích pŕs (na panvici), 150g pohánky, brokolica, paprika.</p>
-          <p class="small">~610 kcal · B 56g · S 65g · T 11g</p>
-        </div>
-        <div class="card">
-          <h3>Snack</h3>
-          <p><b>Proteínový shake + ovocie</b><br>
-          30g proteínu, 250ml mlieka, 1 hruška.</p>
-          <p class="small">~300 kcal · B 30g · S 30g · T 6g</p>
-        </div>
-        <div class="card">
-          <h3>Večera</h3>
-          <p><b>Mleté hovädzie so zemiakovou kašou</b><br>
-          200g chudého mletého hovädzieho, 250g zemiakov (kaša, trocha mlieka), zelený šalát s olivovým olejom.</p>
-          <p class="small">~640 kcal · B 50g · S 58g · T 21g</p>
-        </div>
-        <div class="card">
-          <h3>Snack 2 (voľný)</h3>
-          <p><b>Grécky jogurt</b><br>
-          200g gréckeho jogurtu light, lyžička medu.</p>
-          <p class="small">~160 kcal · B 18g · S 16g · T 2g</p>
-        </div>
-        <p class="small"><b>Súčet dňa:</b> ~2 230 kcal · B 189g · S 207g · T 64g</p>
-      </div>
-
-      <!-- PIATOK -->
-      <div class="daycontent" id="jed-pills-pi">
-        <div class="card">
-          <h3>Raňajky</h3>
-          <p><b>Tvarohová kaša s ovsom a vajcami</b><br>
-          60g ovsených vločiek, 250g tvarohu light, 2 vajcia natvrdo, 1 banán, skorica.</p>
-          <p class="small">~620 kcal · B 52g · S 68g · T 14g</p>
-        </div>
-        <div class="card">
-          <h3>Obed</h3>
-          <p><b>Kuracie prsia s ryžou a zeleninou</b><br>
-          180g kuracích pŕs, 150g ryže natural, brokolica + paprika.</p>
-          <p class="small">~650 kcal · B 58g · S 70g · T 12g</p>
-        </div>
-        <div class="card">
-          <h3>Snack</h3>
-          <p><b>Tvaroh s ovocím</b><br>
-          250g tvarohu light, 1 jablko nakrájané, skorica, lyžička medu.</p>
-          <p class="small">~290 kcal · B 38g · S 28g · T 3g</p>
-        </div>
-        <div class="card">
-          <h3>Večera</h3>
-          <p><b>Bravčová panenka s pečenými zemiakmi</b><br>
-          180g bravčovej panenky, 250g zemiakov (pečené na plátky), zeleninový šalát s olivovým olejom (1 ČL).</p>
-          <p class="small">~610 kcal · B 50g · S 60g · T 16g</p>
-        </div>
-        <div class="card">
-          <h3>Snack 2 (voľný)</h3>
-          <p><b>Banán + arašidové maslo</b><br>
-          1 banán, 15g arašidového masla.</p>
-          <p class="small">~190 kcal · B 5g · S 25g · T 8g</p>
-        </div>
-        <p class="small"><b>Súčet dňa:</b> ~2 360 kcal · B 203g · S 251g · T 53g</p>
-      </div>
-
-      <!-- SOBOTA -->
-      <div class="daycontent" id="jed-pills-so">
-        <div class="card">
-          <h3>Raňajky</h3>
-          <p><b>Vaječnica s celozrnným chlebom a šunkou</b><br>
-          3 vajcia, 50g chudej šunky, 2 plátky celozrnného chleba, paradajka, paprika.</p>
-          <p class="small">~530 kcal · B 40g · S 38g · T 22g</p>
-        </div>
-        <div class="card">
-          <h3>Obed</h3>
-          <p><b>Hovädzí guláš so zemiakmi</b><br>
-          180g hovädzieho guľášového mäsa (chudšie), 250g zemiakov, mrkva, cibuľa, paprika koreniaca, varené pomalšie (1.5-2h).</p>
-          <p class="small">~640 kcal · B 50g · S 60g · T 18g</p>
-        </div>
-        <div class="card">
-          <h3>Snack</h3>
-          <p><b>Proteínový shake</b><br>
-          30g proteínu, 250ml mlieka, hrsť čučoriedok.</p>
-          <p class="small">~290 kcal · B 30g · S 28g · T 6g</p>
-        </div>
-        <div class="card">
-          <h3>Večera</h3>
-          <p><b>Kuracie prsia s pohánkou a zeleninou</b><br>
-          180g kuracích pŕs, 150g pohánky, cuketa + paprika dusená.</p>
-          <p class="small">~600 kcal · B 56g · S 62g · T 11g</p>
-        </div>
-        <div class="card">
-          <h3>Snack 2 (voľný)</h3>
-          <p><b>Grécky jogurt s orechmi</b><br>
-          200g gréckeho jogurtu light, 15g vlašských orechov.</p>
-          <p class="small">~220 kcal · B 19g · S 10g · T 11g</p>
-        </div>
-        <p class="small"><b>Súčet dňa:</b> ~2 280 kcal · B 195g · S 198g · T 68g</p>
-      </div>
-
-      <!-- NEDEĽA -->
-      <div class="daycontent" id="jed-pills-ne">
-        <div class="card">
-          <h3>Raňajky</h3>
-          <p><b>Tvarohová kaša s ovsom a vajcami</b><br>
-          60g ovsených vločiek, 250g tvarohu light, 2 vajcia natvrdo, 1 banán, skorica.</p>
-          <p class="small">~620 kcal · B 52g · S 68g · T 14g</p>
-        </div>
-        <div class="card">
-          <h3>Obed (nedeľný)</h3>
-          <p><b>Pečené kuracie stehno so zemiakmi a šalátom</b><br>
-          200g kuracieho stehna bez kosti (pečené, bez kože), 250g zemiakov (pečené), zeleninový šalát s olivovým olejom.</p>
-          <p class="small">~640 kcal · B 52g · S 58g · T 20g</p>
-        </div>
-        <div class="card">
-          <h3>Snack</h3>
-          <p><b>Tvaroh s medom a orechmi</b><br>
-          200g tvarohu light, lyžička medu, 15g mandlí.</p>
-          <p class="small">~270 kcal · B 32g · S 16g · T 9g</p>
-        </div>
-        <div class="card">
-          <h3>Večera</h3>
-          <p><b>Mleté morčacie s ryžou a zeleninou</b><br>
-          200g mletého morčacieho, 150g ryže natural, brokolica, mrkva, sójová omáčka (nízkosodná, malé množstvo).</p>
-          <p class="small">~600 kcal · B 54g · S 65g · T 12g</p>
-        </div>
-        <div class="card">
-          <h3>Snack 2 (voľný)</h3>
-          <p><b>Ovocie + jogurt</b><br>
-          150g gréckeho jogurtu light, 1 pomaranč.</p>
-          <p class="small">~150 kcal · B 14g · S 20g · T 1g</p>
-        </div>
-        <p class="small"><b>Súčet dňa:</b> ~2 280 kcal · B 204g · S 227g · T 56g</p>
+        <p class="small"><b>Príprava (várka 2):</b> Naraz upeč/opraž väčšie množstvo morčacích pŕs a kuracích stehien (napr. 600g + 600g na 3 dni), zemiaky a zelenina podľa potreby.</p>
       </div>
 
     </div>
 
     <div class="card">
+      <h3>🥤 Snacky (denne)</h3>
+      <p><b>Snack:</b> Grécky jogurt (250g light) s 20g orechov a lyžičkou medu, alebo proteínový shake (30g proteínu + 250ml mlieka + ovocie).</p>
+      <p class="small">~280-300 kcal · B 24-30g · S 16-30g · T 6-13g</p>
+      <p><b>Snack 2 (voľný, podľa chuti/hladu):</b> Cottage cheese + zelenina, alebo ovocie + arašidové maslo, alebo grécky jogurt.</p>
+      <p class="small">~150-190 kcal · B 5-19g · S 8-25g · T 4-9g</p>
+    </div>
+
+    <div class="card">
+      <h3>📊 Súčet dňa</h3>
+      <table>
+        <tr><th>Deň</th><th>Raňajky</th><th>Obed</th><th>Večera</th><th>Snacky</th><th>Celkom</th></tr>
+        <tr><td>Po–Št (Jedlo A)</td><td>~370</td><td>~680</td><td>~600</td><td>~430-490</td><td>~2 280-2 340 kcal</td></tr>
+        <tr><td>Pi–Ne (Jedlo B)</td><td>~370</td><td>~640</td><td>~620</td><td>~430-490</td><td>~2 260-2 320 kcal</td></tr>
+      </table>
+      <p class="small">Proteín cca 185-200g/deň, v súlade s cieľom ~190g.</p>
+    </div>
+
+    <div class="card">
       <h3>★ Poznámky k jedálničku</h3>
       <ul>
-        <li>Všetky gramáže sú <b>surová/pred úpravou váha</b> pri mäse, ryži, pohánke; tvaroh/jogurt vážený ako kúpený.</li>
+        <li>Všetky gramáže mäsa a zemiakov sú <b>surová váha</b> pred úpravou.</li>
         <li>Soľ používaj normálnu (jódovanú) — <b>nie soľné náhrady "no-salt"</b> (obsahujú draslík, riziko pri tvojom lieku na tlak).</li>
-        <li>Snack 2 je flexibilný — ak nemáš hlad, môžeš ho vynechať (zníži deficit ešte o trochu navyše, čo je v poriadku).</li>
+        <li>Snack 2 je flexibilný — ak nemáš hlad, môžeš ho vynechať.</li>
         <li>Pitný režim: aspoň 3 litre vody denne (dôležité pri vyššej telesnej hmotnosti a kvôli HCTZ, ktorý zvyšuje vylučovanie vody).</li>
         <li>Posledné jedlo (Snack 2) ideálne do 19:00-20:00.</li>
+        <li>Pri uskladnení varenej hydiny v chladničke max. 3-4 dni — Jedlo A (4 dni, Po-Št) je na hornej hranici, takže Št porciu skontroluj/dáj prednosť čerstvejšej časti várky alebo zmraz časť dopredu.</li>
       </ul>
     </div>
   </div>
@@ -1154,32 +969,33 @@
     <h1>📊 Makrá</h1>
 
     <div class="card">
-      <h3>Denný cieľ (priemer za týždeň)</h3>
-      <div class="macro-row"><span>Kalórie</span><span><b>~2 300 kcal</b></span></div>
+      <h3>Denný cieľ (priemer Po-Ne)</h3>
+      <div class="macro-row"><span>Kalórie</span><span><b>~2 280 kcal</b></span></div>
       <div class="macro-bar-bg"><div class="macro-bar-fill" style="width:100%;"></div></div>
 
       <div class="macro-row"><span>Proteín</span><span><b>~195g</b> (~34%)</span></div>
       <div class="macro-bar-bg"><div class="macro-bar-fill" style="width:68%; background:#1D9E75;"></div></div>
 
-      <div class="macro-row"><span>Sacharidy</span><span><b>~221g</b> (~38%)</span></div>
-      <div class="macro-bar-bg"><div class="macro-bar-fill" style="width:78%; background:#3B8FD9;"></div></div>
+      <div class="macro-row"><span>Sacharidy</span><span><b>~217g</b> (~38%)</span></div>
+      <div class="macro-bar-bg"><div class="macro-bar-fill" style="width:76%; background:#3B8FD9;"></div></div>
 
-      <div class="macro-row"><span>Tuky</span><span><b>~62g</b> (~24%)</span></div>
-      <div class="macro-bar-bg"><div class="macro-bar-fill" style="width:55%; background:#E8C547;"></div></div>
+      <div class="macro-row"><span>Tuky</span><span><b>~63g</b> (~25%)</span></div>
+      <div class="macro-bar-bg"><div class="macro-bar-fill" style="width:56%; background:#E8C547;"></div></div>
 
-      <p class="small">Hodnoty sú priemer naprieč 7 dňami jedálničku (rozsah ~2 230-2 360 kcal/deň). Proteín ~1.5g/kg telesnej hmotnosti — dostatočné pre ochranu svalov pri deficite.</p>
+      <p class="small">Hodnoty sú priemer pre Jedlo A (Po-Št, ~2 290 kcal) a Jedlo B (Pi-Ne, ~2 270 kcal). Proteín ~1.5g/kg telesnej hmotnosti — dostatočné pre ochranu svalov pri deficite.</p>
     </div>
 
     <div class="card">
       <h3>Rozdelenie kalórií počas dňa</h3>
       <table>
         <tr><th>Jedlo</th><th>Podiel</th><th>Orientačne kcal</th></tr>
-        <tr><td>Raňajky</td><td>~25%</td><td>~580 kcal</td></tr>
-        <tr><td>Obed</td><td>~28%</td><td>~640 kcal</td></tr>
-        <tr><td>Snack</td><td>~12%</td><td>~280 kcal</td></tr>
-        <tr><td>Večera</td><td>~26%</td><td>~610 kcal</td></tr>
-        <tr><td>Snack 2 (voľný)</td><td>~9%</td><td>~190 kcal</td></tr>
+        <tr><td>Raňajky (Cottage + vajcia)</td><td>~16%</td><td>~370 kcal</td></tr>
+        <tr><td>Obed (A/B)</td><td>~29%</td><td>~660 kcal</td></tr>
+        <tr><td>Snack</td><td>~13%</td><td>~290 kcal</td></tr>
+        <tr><td>Večera (A/B)</td><td>~27%</td><td>~610 kcal</td></tr>
+        <tr><td>Snack 2 (voľný)</td><td>~15%</td><td>~340 kcal</td></tr>
       </table>
+      <p class="small">Snacky sú flexibilné — ak Snack 2 vynecháš, deň vychádza okolo ~1 940 kcal (väčší deficit, čo je v poriadku príležitostne).</p>
     </div>
 
     <div class="card">
@@ -1187,20 +1003,20 @@
       <table>
         <tr><th>Živina</th><th>Odhad denne</th><th>% RHP*</th></tr>
         <tr><td>Vitamín D</td><td>~2-4 µg z jedla + doplnok 2000-4000 IU</td><td>~100%+ (s doplnkom)</td></tr>
-        <tr><td>Vitamín A</td><td>~600-800 µg (vajcia, mlieko, zelenina)</td><td>~80-100%</td></tr>
-        <tr><td>Vitamín C</td><td>~80-120mg (zelenina, ovocie)</td><td>~100-130%</td></tr>
-        <tr><td>Zinok</td><td>~10-13mg (mäso, vajcia)</td><td>~90-120%</td></tr>
+        <tr><td>Vitamín A</td><td>~500-700 µg (vajcia, mlieko, zelenina)</td><td>~70-90%</td></tr>
+        <tr><td>Vitamín C</td><td>~70-100mg (zelenina, ovocie)</td><td>~90-115%</td></tr>
+        <tr><td>Zinok</td><td>~11-14mg (mäso, vajcia)</td><td>~100-130%</td></tr>
         <tr><td>Vitamín B12</td><td>~3-4 µg (mäso, mlieko, vajcia)</td><td>~120-160%</td></tr>
-        <tr><td>Draslík</td><td>~3000-3500mg (zemiaky, banán, zelenina)</td><td>~85-100%</td></tr>
-        <tr><td>Horčík</td><td>~280-350mg z jedla + doplnok 200-300mg</td><td>~130%+ (s doplnkom)</td></tr>
-        <tr><td>Vláknina</td><td>~28-35g (zelenina, ovsené vločky, pohánka)</td><td>~100-115%</td></tr>
+        <tr><td>Draslík</td><td>~3200-3700mg (zemiaky, zelenina)</td><td>~90-105%</td></tr>
+        <tr><td>Horčík</td><td>~250-320mg z jedla + doplnok 200-300mg</td><td>~120%+ (s doplnkom)</td></tr>
+        <tr><td>Vláknina</td><td>~22-28g (zelenina, zemiaky)</td><td>~75-95%</td></tr>
       </table>
-      <p class="small">*RHP = referenčná hodnota príjmu (orientačné, dospelý muž). Hodnoty sú odhady — pri pravidelnom stravovaní podľa jedálničku by mali byť bez výrazných deficitov, okrem vitamínu D, kde doplnok pomáha.</p>
+      <p class="small">*RHP = referenčná hodnota príjmu (orientačné, dospelý muž). Vláknina je o niečo nižšia ako predtým (chýba ovos/pohánka) — ak je to problém (zápcha a pod.), môžeme do snackov doplniť napr. ovocie s šupkou alebo strukoviny.</p>
     </div>
 
     <div class="card">
       <h3>★ Konzistencia s jedálničkom</h3>
-      <p class="small">Tieto súčty vychádzajú priamo zo 7 dní v tabe Jedálniček. Ak sa zmení niektoré jedlo (napr. nahradenie receptu), treba prepočítať aj túto tabuľku, aby čísla zostali presné.</p>
+      <p class="small">Tieto súčty vychádzajú priamo z tabu Jedálniček (raňajky denne + Jedlo A pre Po-Št / Jedlo B pre Pi-Ne + snacky). Ak sa zmení niektorý recept alebo gramáž, treba prepočítať aj túto tabuľku, aby čísla zostali presné.</p>
     </div>
   </div>
   <div id="tab-progres" class="tabsection">
