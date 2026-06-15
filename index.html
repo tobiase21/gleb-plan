@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Gleb — Plán</title>
+<style>
+  :root {
+    --bg: #0F0F0E;
+    --card: #1A1A18;
+    --border: #2A2A28;
+    --text: #E8E6E0;
+    --text-dim: #9A9A92;
+    --accent: #1D9E75;
+    --accent-dim: rgba(29,158,117,0.15);
+    --nav-active-bg: rgba(80,50,120,0.25);
+    --nav-hover-bg: rgba(80,50,120,0.12);
+    --warn: #C9544B;
+    --warn-bg: rgba(201,84,75,0.12);
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    padding-bottom: 40px;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    overflow-x: auto;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+
+  nav button {
+    flex: 0 0 auto;
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 16px 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    border-radius: 8px 8px 0 0;
+    transition: background 0.15s, color 0.15s;
+  }
+  nav button:hover {
+    background: var(--nav-hover-bg);
+    color: #FFFFFF;
+  }
+  nav button.active {
+    color: var(--accent);
+    background: var(--nav-active-bg);
+  }
+
+  /* LAYOUT */
+  main {
+    padding: 14px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .tabsection { display: none; }
+  .tabsection.active { display: block; animation: fadein 0.2s ease; }
+
+  @keyframes fadein {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  h1 {
+    font-size: 19px;
+    margin: 4px 0 12px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+  h2 {
+    font-size: 15px;
+    margin: 0 0 8px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  h3 {
+    font-size: 13px;
+    margin: 0 0 6px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  p { line-height: 1.5; font-size: 14px; color: var(--text); margin: 0 0 8px; }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+
+  /* PILL TABS (day switchers) */
+  .pills {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    margin-bottom: 12px;
+    padding-bottom: 2px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .pills::-webkit-scrollbar { display: none; }
+  .pill {
+    flex: 0 0 auto;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .pill.active {
+    background: var(--accent);
+    color: #06140F;
+    border-color: var(--accent);
+  }
+
+  .daycontent { display: none; }
+  .daycontent.active { display: block; animation: fadein 0.2s ease; }
+
+  /* WARNING BOX */
+  .warn {
+    background: var(--warn-bg);
+    border: 1px solid var(--warn);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .warn b { color: var(--warn); }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+  }
+  th, td {
+    text-align: left;
+    padding: 6px 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    color: var(--text-dim);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+  }
+  td input[type="text"], td input[type="number"] {
+    width: 100%;
+    background: #14140F;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 12.5px;
+    padding: 6px 6px;
+  }
+
+  /* EXERCISE ROW */
+  .exercise {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .exercise:last-child { border-bottom: none; }
+  .exercise-info { flex: 1; }
+  .exercise-name { font-weight: 700; font-size: 13.5px; margin-bottom: 2px; }
+  .exercise-sets { font-size: 12px; color: var(--text-dim); }
+  .video-btn {
+    flex: 0 0 auto;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  /* DONE BUTTON */
+  .done-btn {
+    width: 100%;
+    background: var(--accent);
+    color: #06140F;
+    border: none;
+    border-radius: 10px;
+    padding: 13px;
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+  .done-btn:active { opacity: 0.85; }
+  .done-btn.done {
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+
+  /* CALENDAR */
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+  }
+  .cal-head {
+    text-align: center;
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    padding: 4px 0;
+    letter-spacing: 0.04em;
+  }
+  .cal-cell {
+    min-height: 60px;
+    border-radius: 6px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 4px;
+    font-size: 9px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .cal-cell .num { font-weight: 800; font-size: 11px; }
+  .cal-cell .emoji { font-size: 14px; }
+  .cal-cell .label { color: var(--text-dim); font-size: 8px; line-height: 1.2; }
+  .cal-cell.empty { background: transparent; border: none; }
+
+  /* MACRO BARS */
+  .macro-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+  .macro-bar-bg {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .macro-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 6px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    margin-left: 6px;
+  }
+
+  .small { font-size: 11.5px; color: var(--text-dim); }
+  .divider { height: 1px; background: var(--border); margin: 12px 0; }
+
+  ul { margin: 4px 0 8px; padding-left: 20px; font-size: 13.5px; line-height: 1.6; }
+  li { margin-bottom: 2px; }
+
+  .star { color: #E8C547; }
+</style>
+</head>
+<body>
+
+<nav id="mainNav"></nav>
+
+<main>
+  <div id="tab-jedalnicek" class="tabsection">
+    <h1>🍽 Jedálniček</h1>
+
+    <div class="warn">
+      <b>Cieľ:</b> ~2 450 kcal/deň, deficit cca 600 kcal voči odhadovanej spotrebe (~3 050 kcal pri 130kg a ~10 000 krokoch/deň). Vysoký proteín (cca 190g) pre ochranu svalovej hmoty pri chudnutí tuku. <b>Bez rýb</b> — omega 3 ide formou doplnku (pozri tab Suplementy). Pri lieku na tlak (Co-Lisinostad) sa <b>vyhýbaj soľným náhradám typu "no-salt"</b> (obsahujú draslík).
+    </div>
+
+    <div class="pills" id="jed-pills">
+      <div class="pill active" data-day="po" onclick="switchPill('jed-pills','po')">PO</div>
+      <div class="pill" data-day="ut" onclick="switchPill('jed-pills','ut')">UT</div>
+      <div class="pill" data-day="st" onclick="switchPill('jed-pills','st')">ST</div>
+      <div class="pill" data-day="stv" onclick="switchPill('jed-pills','stv')">ŠT</div>
+      <div class="pill" data-day="pi" onclick="switchPill('jed-pills','pi')">PI</div>
+      <div class="pill" data-day="so" onclick="switchPill('jed-pills','so')">SO</div>
+      <div class="pill" data-day="ne" onclick="switchPill('jed-pills','ne')">NE</div>
+    </div>
+
+    <div id="jed-pills-content">
+
+      <!-- PONDELOK -->
+      <div class="daycontent active" id="jed-pills-po">
+        <div class="card">
+          <h3>Raňajky</h3>
+          <p><b>Tvarohová kaša s ovsom a vajcami</b><br>
+          60g ovsených vločiek varených na vode/mlieku, 250g tvarohu (light), 2 celé vajcia (uvarené natvrdo, pridať na vrch), 1 banán, štipka skorice.</p>
+          <p class="small">~620 kcal · B 52g · S 68g · T 14g</p>
+        </div>
+        <div class="card">
+          <h3>Obed</h3>
+          <p><b>Kuracie prsia s ryžou a zeleninou</b><br>
+          180g kuracích pŕs (na panvici, trocha oleja), 150g ryže natural (uvarená), brokolica + paprika (dusená, korenie, cesnak).</p>
+          <p class="small">~650 kcal · B 58g · S 70g · T 12g</p>
+        </div>
+        <div class="card">
+          <h3>Snack</h3>
+          <p><b>Grécky jogurt s vlašskými orechmi</b><br>
+          250g gréckeho jogurtu (light/0%), 20g vlašských orechov, lyžička medu.</p>
+          <p class="small">~280 kcal · B 24g · S 16g · T 13g</p>
+        </div>
+        <div class="card">
+          <h3>Večera</h3>
+          <p><b>Mleté hovädzie so zemiakmi</b><br>
+          200g chudého mletého hovädzieho (do 10% tuku), 250g zemiakov (varené), cibuľa, paprika, paradajková omáčka domáca (bez cukru).</p>
+          <p class="small">~620 kcal · B 50g · S 55g · T 18g</p>
+        </div>
+        <div class="card">
+          <h3>Snack 2 (voľný)</h3>
+          <p><b>Tvaroh/cottage cheese + zelenina</b><br>
+          150g cottage cheese, mrkva/paprika na pochrumkanie.</p>
+          <p class="small">~150 kcal · B 18g · S 8g · T 4g</p>
+        </div>
+        <p class="small"><b>Súčet dňa:</b> ~2 320 kcal · B 202g · S 217g · T 61g</p>
+      </div>
+
+      <!-- UTOROK -->
+      <div class="daycontent" id="jed-pills-ut">
+        <div class="card">
+          <h3>Raňajky</h3>
+          <p><b>Vaječná omeleta s tvrdým syrom a celozrnným chlebom</b><br>
+          3 celé vajcia, 30g syra (light), 2 plátky celozrnného chleba, paradajka.</p>
+          <p class="small">~520 kcal · B 35g · S 38g · T 24g</p>
+        </div>
+        <div class="card">
+          <h3>Obed</h3>
+          <p><b>Bravčová panenka s pohánkou</b><br>
+          180g bravčovej panenky (chudá časť, na panvici), 150g pohánky (uvarenej), cuketa + mrkva (dusená).</p>
+          <p class="small">~640 kcal · B 55g · S 68g · T 15g</p>
+        </div>
+        <div class="card">
+          <h3>Snack</h3>
+          <p><b>Proteínový shake</b><br>
+          1 odmerka (30g) proteínu (whey alebo rastlinný), 250ml mlieka/rast. mlieka, 1 jablko.</p>
+          <p class="small">~300 kcal · B 30g · S 30g · T 6g</p>
+        </div>
+        <div class="card">
+          <h3>Večera</h3>
+          <p><b>Kuracie stehná pečené so šalátom</b><br>
+          200g kuracích stehien bez kosti (pečené, bez kože), zemiaky 200g (pečené), zeleninový šalát (paradajka, uhorka, olivový olej 1 ČL).</p>
+          <p class="small">~600 kcal · B 52g · S 48g · T 22g</p>
+        </div>
+        <div class="card">
+          <h3>Snack 2 (voľný)</h3>
+          <p><b>Ovocie + arašidové maslo</b><br>
+          1 banán, 15g arašidového masla (100%).</p>
+          <p class="small">~190 kcal · B 5g · S 25g · T 8g</p>
+        </div>
+        <p class="small"><b>Súčet dňa:</b> ~2 250 kcal · B 177g · S 209g · T 75g</p>
+      </div>
+
+      <!-- STREDA -->
+      <div class="daycontent" id="jed-pills-st">
+        <div class="card">
+          <h3>Raňajky</h3>
+          <p><b>Tvarohová kaša s ovsom a vajcami</b> (rovnaké ako Pondelok)<br>
+          60g ovsených vločiek, 250g tvarohu (light), 2 vajcia natvrdo, 1 banán, skorica.</p>
+          <p class="small">~620 kcal · B 52g · S 68g · T 14g</p>
+        </div>
+        <div class="card">
+          <h3>Obed</h3>
+          <p><b>Hovädzie chilli s ryžou</b><br>
+          180g mletého hovädzieho (do 10% tuku), 100g červenej fazule (z konzervy, scedená), paradajková omáčka, cibuľa, korenie, 150g ryže.</p>
+          <p class="small">~680 kcal · B 50g · S 78g · T 16g</p>
+        </div>
+        <div class="card">
+          <h3>Snack</h3>
+          <p><b>Grécky jogurt s ovsenými vločkami</b><br>
+          250g gréckeho jogurtu, 30g ovsených vločiek, lyžička medu, skorica.</p>
+          <p class="small">~290 kcal · B 26g · S 35g · T 6g</p>
+        </div>
+        <div class="card">
+          <h3>Večera</h3>
+          <p><b>Kuracie prsia s pečenou zeleninou</b><br>
+          180g kuracích pŕs, 250g pečenej zeleniny (cuketa, paprika, cibuľa, olivový olej 1 ČL), 150g varených zemiakov.</p>
+          <p class="small">~570 kcal · B 48g · S 55g · T 13g</p>
+        </div>
+        <div class="card">
+          <h3>Snack 2 (voľný)</h3>
+          <p><b>Cottage cheese + orechy</b><br>
+          150g cottage cheese, 15g mandlí.</p>
+          <p class="small">~190 kcal · B 19g · S 6g · T 9g</p>
+        </div>
+        <p class="small"><b>Súčet dňa:</b> ~2 350 kcal · B 195g · S 242g · T 58g</p>
+      </div>
+
+      <!-- ŠTVRTOK -->
+      <div class="daycontent" id="jed-pills-stv">
+        <div class="card">
+          <h3>Raňajky</h3>
+          <p><b>Vaječná omeleta s tvrdým syrom a celozrnným chlebom</b> (rovnaké ako Utorok)<br>
+          3 vajcia, 30g syra light, 2 plátky celozrnného chleba, paradajka.</p>
+          <p class="small">~520 kcal · B 35g · S 38g · T 24g</p>
+        </div>
+        <div class="card">
+          <h3>Obed</h3>
+          <p><b>Morčacie prsia s pohánkou a zeleninou</b><br>
+          180g morčacích pŕs (na panvici), 150g pohánky, brokolica, paprika.</p>
+          <p class="small">~610 kcal · B 56g · S 65g · T 11g</p>
+        </div>
+        <div class="card">
+          <h3>Snack</h3>
+          <p><b>Proteínový shake + ovocie</b><br>
+          30g proteínu, 250ml mlieka, 1 hruška.</p>
+          <p class="small">~300 kcal · B 30g · S 30g · T 6g</p>
+        </div>
+        <div class="card">
+          <h3>Večera</h3>
+          <p><b>Mleté hovädzie so zemiakovou kašou</b><br>
+          200g chudého mletého hovädzieho, 250g zemiakov (kaša, trocha mlieka), zelený šalát s olivovým olejom.</p>
+          <p class="small">~640 kcal · B 50g · S 58g · T 21g</p>
+        </div>
+        <div class="card">
+          <h3>Snack 2 (voľný)</h3>
+          <p><b>Grécky jogurt</b><br>
+          200g gréckeho jogurtu light, lyžička medu.</p>
+          <p class="small">~160 kcal · B 18g · S 16g · T 2g</p>
+        </div>
+        <p class="small"><b>Súčet dňa:</b> ~2 230 kcal · B 189g · S 207g · T 64g</p>
+      </div>
+
+      <!-- PIATOK -->
+      <div class="daycontent" id="jed-pills-pi">
+        <div class="card">
+          <h3>Raňajky</h3>
+          <p><b>Tvarohová kaša s ovsom a vajcami</b><br>
+          60g ovsených vločiek, 250g tvarohu light, 2 vajcia natvrdo, 1 banán, skorica.</p>
+          <p class="small">~620 kcal · B 52g · S 68g · T 14g</p>
+        </div>
+        <div class="card">
+          <h3>Obed</h3>
+          <p><b>Kuracie prsia s ryžou a zeleninou</b><br>
+          180g kuracích pŕs, 150g ryže natural, brokolica + paprika.</p>
+          <p class="small">~650 kcal · B 58g · S 70g · T 12g</p>
+        </div>
+        <div class="card">
+          <h3>Snack</h3>
+          <p><b>Tvaroh s ovocím</b><br>
+          250g tvarohu light, 1 jablko nakrájané, skorica, lyžička medu.</p>
+          <p class="small">~290 kcal · B 38g · S 28g · T 3g</p>
+        </div>
+        <div class="card">
+          <h3>Večera</h3>
+          <p><b>Bravčová panenka s pečenými zemiakmi</b><br>
+          180g bravčovej panenky, 250g zemiakov (pečené na plátky), zeleninový šalát s olivovým olejom (1 ČL).</p>
+          <p class="small">~610 kcal · B 50g · S 60g · T 16g</p>
+        </div>
+        <div class="card">
+          <h3>Snack 2 (voľný)</h3>
+          <p><b>Banán + arašidové maslo</b><br>
+          1 banán, 15g arašidového masla.</p>
+          <p class="small">~190 kcal · B 5g · S 25g · T 8g</p>
+        </div>
+        <p class="small"><b>Súčet dňa:</b> ~2 360 kcal · B 203g · S 251g · T 53g</p>
+      </div>
+
+      <!-- SOBOTA -->
+      <div class="daycontent" id="jed-pills-so">
+        <div class="card">
+          <h3>Raňajky</h3>
+          <p><b>Vaječnica s celozrnným chlebom a šunkou</b><br>
+          3 vajcia, 50g chudej šunky, 2 plátky celozrnného chleba, paradajka, paprika.</p>
+          <p class="small">~530 kcal · B 40g · S 38g · T 22g</p>
+        </div>
+        <div class="card">
+          <h3>Obed</h3>
+          <p><b>Hovädzí guláš so zemiakmi</b><br>
+          180g hovädzieho guľášového mäsa (chudšie), 250g zemiakov, mrkva, cibuľa, paprika koreniaca, varené pomalšie (1.5-2h).</p>
+          <p class="small">~640 kcal · B 50g · S 60g · T 18g</p>
+        </div>
+        <div class="card">
+          <h3>Snack</h3>
+          <p><b>Proteínový shake</b><br>
+          30g proteínu, 250ml mlieka, hrsť čučoriedok.</p>
+          <p class="small">~290 kcal · B 30g · S 28g · T 6g</p>
+        </div>
+        <div class="card">
+          <h3>Večera</h3>
+          <p><b>Kuracie prsia s pohánkou a zeleninou</b><br>
+          180g kuracích pŕs, 150g pohánky, cuketa + paprika dusená.</p>
+          <p class="small">~600 kcal · B 56g · S 62g · T 11g</p>
+        </div>
+        <div class="card">
+          <h3>Snack 2 (voľný)</h3>
+          <p><b>Grécky jogurt s orechmi</b><br>
+          200g gréckeho jogurtu light, 15g vlašských orechov.</p>
+          <p class="small">~220 kcal · B 19g · S 10g · T 11g</p>
+        </div>
+        <p class="small"><b>Súčet dňa:</b> ~2 280 kcal · B 195g · S 198g · T 68g</p>
+      </div>
+
+      <!-- NEDEĽA -->
+      <div class="daycontent" id="jed-pills-ne">
+        <div class="card">
+          <h3>Raňajky</h3>
+          <p><b>Tvarohová kaša s ovsom a vajcami</b><br>
+          60g ovsených vločiek, 250g tvarohu light, 2 vajcia natvrdo, 1 banán, skorica.</p>
+          <p class="small">~620 kcal · B 52g · S 68g · T 14g</p>
+        </div>
+        <div class="card">
+          <h3>Obed (nedeľný)</h3>
+          <p><b>Pečené kuracie stehno so zemiakmi a šalátom</b><br>
+          200g kuracieho stehna bez kosti (pečené, bez kože), 250g zemiakov (pečené), zeleninový šalát s olivovým olejom.</p>
+          <p class="small">~640 kcal · B 52g · S 58g · T 20g</p>
+        </div>
+        <div class="card">
+          <h3>Snack</h3>
+          <p><b>Tvaroh s medom a orechmi</b><br>
+          200g tvarohu light, lyžička medu, 15g mandlí.</p>
+          <p class="small">~270 kcal · B 32g · S 16g · T 9g</p>
+        </div>
+        <div class="card">
+          <h3>Večera</h3>
+          <p><b>Mleté morčacie s ryžou a zeleninou</b><br>
+          200g mletého morčacieho, 150g ryže natural, brokolica, mrkva, sójová omáčka (nízkosodná, malé množstvo).</p>
+          <p class="small">~600 kcal · B 54g · S 65g · T 12g</p>
+        </div>
+        <div class="card">
+          <h3>Snack 2 (voľný)</h3>
+          <p><b>Ovocie + jogurt</b><br>
+          150g gréckeho jogurtu light, 1 pomaranč.</p>
+          <p class="small">~150 kcal · B 14g · S 20g · T 1g</p>
+        </div>
+        <p class="small"><b>Súčet dňa:</b> ~2 280 kcal · B 204g · S 227g · T 56g</p>
+      </div>
+
+    </div>
+
+    <div class="card">
+      <h3>★ Poznámky k jedálničku</h3>
+      <ul>
+        <li>Všetky gramáže sú <b>surová/pred úpravou váha</b> pri mäse, ryži, pohánke; tvaroh/jogurt vážený ako kúpený.</li>
+        <li>Soľ používaj normálnu (jódovanú) — <b>nie soľné náhrady "no-salt"</b> (obsahujú draslík, riziko pri tvojom lieku na tlak).</li>
+        <li>Snack 2 je flexibilný — ak nemáš hlad, môžeš ho vynechať (zníži deficit ešte o trochu navyše, čo je v poriadku).</li>
+        <li>Pitný režim: aspoň 3 litre vody denne (dôležité pri vyššej telesnej hmotnosti a kvôli HCTZ, ktorý zvyšuje vylučovanie vody).</li>
+        <li>Posledné jedlo (Snack 2) ideálne do 19:00-20:00.</li>
+      </ul>
+    </div>
+  </div>
+  <div id="tab-trening" class="tabsection">
+    <h1>💪 Tréning</h1>
+
+    <div class="warn">
+      <b>Pred štartom:</b> kvôli vysokému tlaku (160/90-100) a silnej nevoľnosti pri kardiu odporúčam <b>konzultáciu s lekárom/kardiológom</b> ešte pred zvyšovaním intenzity. Silový tréning v gyme je v poriadku, postupuj pomaly. Ľavá noha — leg press, predkopy aj zákopy zvládaš, vyhýbaj sa skokom a behu. Pri cvikoch na chrbát/core dbaj na techniku (skolióza) — žiadny ťah do bolesti.
+    </div>
+
+    <div class="card">
+      <h2>🔄 Rotujúci cyklus — ďalší tréning</h2>
+      <p class="small">Appka si pamätá, kde ste skončili. Po tréningu klikni "Hotovo" a appka ukáže ďalší deň v poradí. Cyklus: Chrbát/Biceps → Hrudník/Triceps → Nohy/Core → Ramená/Core.</p>
+      <div id="next-day-display" style="text-align:center; padding: 10px 0;">
+        <div style="font-size:11px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:4px;">Dnešný tréning</div>
+        <div id="next-day-name" style="font-size:22px; font-weight:800; color:var(--accent);"></div>
+      </div>
+      <button class="done-btn" id="cycle-done-btn" onclick="completeWorkout()">Hotovo ✓</button>
+      <p class="small" style="text-align:center; margin-top:8px;">Posledný absolvovaný: <span id="last-done"></span></p>
+    </div>
+
+    <div class="pills" id="tr-pills">
+      <div class="pill active" data-day="d1" onclick="switchPill('tr-pills','d1')">Deň 1 · Chrbát/Biceps</div>
+      <div class="pill" data-day="d2" onclick="switchPill('tr-pills','d2')">Deň 2 · Hrudník/Triceps</div>
+      <div class="pill" data-day="d3" onclick="switchPill('tr-pills','d3')">Deň 3 · Nohy/Core</div>
+      <div class="pill" data-day="d4" onclick="switchPill('tr-pills','d4')">Deň 4 · Ramená/Core</div>
+    </div>
+
+    <div id="tr-pills-content">
+
+      <!-- DEŇ 1 -->
+      <div class="daycontent active" id="tr-pills-d1">
+        <div class="card">
+          <h3>Deň 1 — Chrbát / Biceps</h3>
+          <div class="exercise">
+            <div class="exercise-info">
+              <div class="exercise-name">Machine Pulldown (sťahovanie hrazdy)</div>
+              <div class="exercise-sets">3 série × 10-12 opakovaní</div>
+            </div>
+            <a class="video-btn" href="https://musclewiki.com/exercise/machine-pulldown" target="_blank">▶</a>
+          </div>
+          <div class="exercise">
+            <div class="exercise-info">
+              <div class="exercise-name">Machine Seated Cable Row (sedaný cable row)</div>
+              <div class="exercise-sets">3 série × 10-12 opakovaní</div>
+            </div>
+            <a class="video-btn" href="https://musclewiki.com/exercise/machine-seated-cable-row" target="_blank">▶</a>
+          </div>
+          <div class="exercise">
+            <div class="exercise-info">
+              <div class="exercise-name">Dumbbell Curl (bicepsový zdvih s činkami)</div>
+              <div class="exercise-sets">3 série × 12 opakovaní</div>
+            </div>
+            <a class="video-btn" href="https://musclewiki.com/exercise/dumbbell-curl" target="_blank">▶</a>
+          </div>
+          <div class="exercise">
+            <div class="exercise-info">
+              <div class="exercise-name">Forearm Plank (planka)</div>
+              <div class="exercise-sets">3 série × 20-30 sekúnd</div>
+            </div>
+            <a class="video-btn" href="https://musclewiki.com/exercise/forearm-plank" target="_blank">▶</a>
+          </div>
+        </div>
+        <div class="card">
+          <h3>★ Poznámky</h3>
+          <ul>
+            <li>Pri sťahovaní hrazdy a cable row — ťah lopatkami dozadu, nie len rukami (chráni chrbát pri skolióze).</li>
+            <li>Začni s nižšou váhou, prvý-druhý týždeň hlavne technika.</li>
+            <li>Planku rob len do bodu, kde drží rovný chrbát — nie do bolesti.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- DEŇ 2 -->
+      <div class="daycontent" id="tr-pills-d2">
+        <div class="card">
+          <h3>Deň 2 — Hrudník / Triceps</h3>
+          <div class="exercise">
+            <div class="exercise-info">
+              <div class="exercise-name">Machine Chest Press</div>
+              <div class="exercise-sets">3 série × 10-12 opakovaní</div>
+            </div>
+            <a class="video-btn" href="https://musclewiki.com/exercise/machine-chest-press" target="_blank">▶</a>
+          </div>
+          <div class="exercise">
+            <div class="exercise-info">
+              <div class="exercise-name">Machine Pec Fly (motýlik)</div>
+              <div class="exercise-sets">3 série × 12 opakovaní</div>
+            </div>
+            <a class="video-btn" href="https://musclewiki.com/exercise/machine-pec-fly" target="_blank">▶</a>
+          </div>
+          <div class="exercise">
+            <div class="exercise-info">
+              <div class="exercise-name">Cable Rope Pushdown (triceps na kladke)</div>
+              <div class="exercise-sets">3 série × 12 opakovaní</div>
+            </div>
+            <a class="video-btn" href="https://musclewiki.com/exercise/cable-rope-pushdown" target="_blank">▶</a>
+          </div>
+          <div class="exercise">
+            <div class="exercise-info">
+              <div class="exercise-name">Forearm Plank (planka)</div>
+              <div class="exercise-sets">3 série × 20-30 sekúnd</div>
+            </div>
+            <a class="video-btn" href="https://musclewiki.com/exercise/forearm-plank" target="_blank">▶</a>
+          </div>
+        </div>
+        <div class="card">
+          <h3>★ Poznámky</h3>
+          <ul>
+            <li>Machine Chest Press — nastav sedadlo tak, aby rukoväte boli vo výške hrudníka.</li>
+            <li>Pri Pec Fly — kontrolovaný pohyb, žiadne hádzanie váhy.</li>
+            <li>Pri triceps pushdown — lakte pri tele, len predlaktie sa hýbe.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- DEŇ 3 -->
+      <div class="daycontent" id="tr-pills-d3">
+        <div class="card">
+          <h3>Deň 3 — Nohy / Core</h3>
+          <div class="exercise">
+            <div class="exercise-info">
+              <div class="exercise-name">Machine Leg Press</div>
+              <div class="exercise-sets">4 série × 10-12 opakovaní</div>
+            </div>
+            <a class="video-btn" href="https://musclewiki.com/exercise/machine-leg-press" target="_blank">▶</a>
+          </div>
+          <div class="exercise">
+            <div class="exercise-info">
+              <div class="exercise-name">Machine Leg Extension (predkopy)</div>
+              <div class="exercise-sets">3 série × 12 opakovaní</div>
+            </div>
+            <a class="video-btn" href="https://musclewiki.com/exercise/machine-leg-extension" target="_blank">▶</a>
+          </div>
+          <div class="exercise">
+            <div class="exercise-info">
+              <div class="exercise-name">Machine Seated Leg Curl (zákopy)</div>
+              <div class="exercise-sets">3 série × 12 opakovaní</div>
+            </div>
+            <a class="video-btn" href="https://musclewiki.com/exercise/machine-seated-leg-curl" target="_blank">▶</a>
+          </div>
+          <div class="exercise">
+            <div class="exercise-info">
+              <div class="exercise-name">Dumbbell Romanian Deadlift (RDL, ľahká váha — technika)</div>
+              <div class="exercise-sets">3 série × 10 opakovaní</div>
+            </div>
+            <a class="video-btn" href="https://musclewiki.com/exercise/dumbbell-romanian-deadlift" target="_blank">▶</a>
+          </div>
+          <div class="exercise">
+            <div class="exercise-info">
+              <div class="exercise-name">Forearm Plank (planka)</div>
+              <div class="exercise-sets">3 série × 20-30 sekúnd</div>
+            </div>
+            <a class="video-btn" href="https://musclewiki.com/exercise/forearm-plank" target="_blank">▶</a>
+          </div>
+        </div>
+        <div class="card">
+          <h3>★ Poznámky</h3>
+          <ul>
+            <li><b>Leg press</b> — toto je tvoja silná stránka (200-300kg), ale začni na nižšej váhe v rámci celého programu a postupne zvyšuj. Koleno na ľavej nohe — ak pocítiš nepríjemný tlak, zníž rozsah pohybu.</li>
+            <li><b>RDL</b> — robíme s veľmi ľahkou váhou (alebo aj bez váhy najprv), cieľom je naučiť sa pohyb v bokoch (hip hinge), nie zaťažiť chrbát. Pri skolióze je technika tu kľúčová.</li>
+            <li>Ak pri plánke alebo RDL pocítiš bolesť v chrbte (nie len únava), cvik vynechaj a povedz mi to — upravíme.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- DEŇ 4 -->
+      <div class="daycontent" id="tr-pills-d4">
+        <div class="card">
+          <h3>Deň 4 — Ramená / Core</h3>
+          <div class="exercise">
+            <div class="exercise-info">
+              <div class="exercise-name">Machine Overhand Overhead Press (tlak nad hlavu)</div>
+              <div class="exercise-sets">3 série × 10-12 opakovaní</div>
+            </div>
+            <a class="video-btn" href="https://musclewiki.com/exercise/machine-overhand-overhead-press" target="_blank">▶</a>
+          </div>
+          <div class="exercise">
+            <div class="exercise-info">
+              <div class="exercise-name">Dumbbell Lateral Raise (upnažovanie do strán)</div>
+              <div class="exercise-sets">3 série × 12-15 opakovaní</div>
+            </div>
+            <a class="video-btn" href="https://musclewiki.com/exercise/dumbbell-lateral-raise" target="_blank">▶</a>
+          </div>
+          <div class="exercise">
+            <div class="exercise-info">
+              <div class="exercise-name">Forearm Plank (planka)</div>
+              <div class="exercise-sets">3 série × 20-30 sekúnd</div>
+            </div>
+            <a class="video-btn" href="https://musclewiki.com/exercise/forearm-plank" target="_blank">▶</a>
+          </div>
+        </div>
+        <div class="card">
+          <h3>★ Poznámky</h3>
+          <ul>
+            <li>Overhead press — sedaný variant je stabilnejší pre začiatočníka, chráni dolný chrbát.</li>
+            <li>Lateral raise — ľahké váhy, kontrolovaný pohyb, nehádzaj.</li>
+            <li>Po tomto dni cyklus ide opäť na Deň 1 (Chrbát/Biceps).</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card">
+      <h3>🚶 Kardio</h3>
+      <p>Aktuálne držíš ~10 000 krokov/deň — to je výborný základ a stačí. <b>Neodporúčam zvyšovať intenzitu kardia</b> (intervaly, kopce, bežiaci pás v sklone), kým to neprejdeš s lekárom — kvôli vysokému tlaku a pocitom na odpadnutie pri záťaži.</p>
+      <p>Postupná progresia: ak chceš pridať, najprv skús predĺžiť čas chôdze (napr. +10 min) na rovnom teréne, nie zvyšovať tempo/sklon. Sleduj, ako sa cítiš — žiadna nevoľnosť, závrate, alebo bolesť na hrudi. Ak sa niečo z toho objaví, zastav a posaď sa.</p>
+    </div>
+
+    <div class="card">
+      <h3>📈 Progresia (ako pridávať váhu)</h3>
+      <p>Ako úplný začiatočník budeš spočiatku rýchlo silnejší — to je normálne (nervosvalová adaptácia). Pravidlo: keď zvládneš horný limit opakovaní v sériách s dobrou technikou 2 tréningy v rade, pridaj na cviku najmenšiu možnú váhu (2.5kg na strane / najmenší kotúč).</p>
+    </div>
+  </div>
+
+  <script>
+    const CYCLE_DAYS = [
+      { key: 'd1', name: 'Deň 1 · Chrbát/Biceps' },
+      { key: 'd2', name: 'Deň 2 · Hrudník/Triceps' },
+      { key: 'd3', name: 'Deň 3 · Nohy/Core' },
+      { key: 'd4', name: 'Deň 4 · Ramená/Core' },
+    ];
+
+    function getCycleState() {
+      const stored = localStorage.getItem('gleb_cycle_index');
+      return stored === null ? -1 : parseInt(stored, 10); // -1 = ešte nezačaté
+    }
+
+    function renderCycle() {
+      const idx = getCycleState();
+      const nextIdx = (idx + 1) % CYCLE_DAYS.length;
+      document.getElementById('next-day-name').textContent = CYCLE_DAYS[nextIdx].name;
+      const lastEl = document.getElementById('last-done');
+      if (idx === -1) {
+        lastEl.textContent = 'zatiaľ žiadny';
+      } else {
+        lastEl.textContent = CYCLE_DAYS[idx].name;
+      }
+    }
+
+    function completeWorkout() {
+      const idx = getCycleState();
+      const nextIdx = (idx + 1) % CYCLE_DAYS.length;
+      localStorage.setItem('gleb_cycle_index', nextIdx);
+      renderCycle();
+      // Auto-switch to the day that was just completed... actually switch to the new "next" day tab
+      switchPill('tr-pills', CYCLE_DAYS[nextIdx].key);
+    }
+
+    renderCycle();
+  </script>
+  <div id="tab-kalendar" class="tabsection">
+    <h1>📅 Kalendár — Jún 2026</h1>
+
+    <div class="warn">
+      Tvoj tréningový rozvrh ide podľa Tobiasovho rozvrhu (nepravidelné policajné zmeny). Dni s 🏋️ sú dni, kedy má Tobias čas cvičiť — vtedy idete spolu, podľa rotujúceho cyklu (pozri tab Tréning). Dni s 💤 sú voľné/odpočinkové. Od 26.6. má Tobias dovolenku — cvič podľa toho čo máš k dispozícii (gym/bazén/bodyweight).
+    </div>
+
+    <div class="card">
+      <div class="cal-grid">
+        <div class="cal-head">PO</div>
+        <div class="cal-head">UT</div>
+        <div class="cal-head">ST</div>
+        <div class="cal-head">ŠT</div>
+        <div class="cal-head">PI</div>
+        <div class="cal-head">SO</div>
+        <div class="cal-head">NE</div>
+
+        <!-- Week 1: 1-7 -->
+        <div class="cal-cell">
+          <div class="num">1</div>
+          <div class="emoji">💤</div>
+          <div class="label">voľno</div>
+        </div>
+        <div class="cal-cell">
+          <div class="num">2</div>
+          <div class="emoji">💤</div>
+          <div class="label">voľno</div>
+        </div>
+        <div class="cal-cell">
+          <div class="num">3</div>
+          <div class="emoji">💤</div>
+          <div class="label">voľno</div>
+        </div>
+        <div class="cal-cell">
+          <div class="num">4</div>
+          <div class="emoji">💤</div>
+          <div class="label">voľno</div>
+        </div>
+        <div class="cal-cell">
+          <div class="num">5</div>
+          <div class="emoji">💤</div>
+          <div class="label">voľno</div>
+        </div>
+        <div class="cal-cell">
+          <div class="num">6</div>
+          <div class="emoji">💤</div>
+          <div class="label">voľno</div>
+        </div>
+        <div class="cal-cell">
+          <div class="num">7</div>
+          <div class="emoji">💤</div>
+          <div class="label">voľno</div>
+        </div>
+
+        <!-- Week 2: 8-14 -->
+        <div class="cal-cell" style="border-color:var(--accent);">
+          <div class="num">8</div>
+          <div class="emoji">🏋️</div>
+          <div class="label">Deň 1</div>
+        </div>
+        <div class="cal-cell">
+          <div class="num">9</div>
+          <div class="emoji">💤</div>
+          <div class="label">voľno</div>
+        </div>
+        <div class="cal-cell" style="border-color:var(--accent);">
+          <div class="num">10</div>
+          <div class="emoji">🏋️</div>
+          <div class="label">Deň 2</div>
+        </div>
+        <div class="cal-cell">
+          <div class="num">11</div>
+          <div class="emoji">💤</div>
+          <div class="label">voľno</div>
+        </div>
+        <div class="cal-cell" style="border-color:var(--accent);">
+          <div class="num">12</div>
+          <div class="emoji">🏋️</div>
+          <div class="label">Deň 3</div>
+        </div>
+        <div class="cal-cell" style="border-color:var(--accent);">
+          <div class="num">13</div>
+          <div class="emoji">🏋️</div>
+          <div class="label">Deň 4</div>
+        </div>
+        <div class="cal-cell" style="border-color:var(--accent);">
+          <div class="num">14</div>
+          <div class="emoji">🏋️</div>
+          <div class="label">Deň 1</div>
+        </div>
+
+        <!-- Week 3: 15-21 -->
+        <div class="cal-cell">
+          <div class="num">15</div>
+          <div class="emoji">💤</div>
+          <div class="label">voľno</div>
+        </div>
+        <div class="cal-cell" style="border-color:var(--accent);">
+          <div class="num">16</div>
+          <div class="emoji">🏋️</div>
+          <div class="label">Deň 2</div>
+        </div>
+        <div class="cal-cell">
+          <div class="num">17</div>
+          <div class="emoji">💤</div>
+          <div class="label">voľno</div>
+        </div>
+        <div class="cal-cell" style="border-color:var(--accent);">
+          <div class="num">18</div>
+          <div class="emoji">🏋️</div>
+          <div class="label">Deň 3</div>
+        </div>
+        <div class="cal-cell">
+          <div class="num">19</div>
+          <div class="emoji">💤</div>
+          <div class="label">voľno</div>
+        </div>
+        <div class="cal-cell" style="border-color:var(--accent);">
+          <div class="num">20</div>
+          <div class="emoji">🏋️</div>
+          <div class="label">Deň 4</div>
+        </div>
+        <div class="cal-cell">
+          <div class="num">21</div>
+          <div class="emoji">💤</div>
+          <div class="label">voľno</div>
+        </div>
+
+        <!-- Week 4: 22-28 -->
+        <div class="cal-cell">
+          <div class="num">22</div>
+          <div class="emoji">💤</div>
+          <div class="label">voľno</div>
+        </div>
+        <div class="cal-cell" style="border-color:var(--accent);">
+          <div class="num">23</div>
+          <div class="emoji">🏋️</div>
+          <div class="label">Deň 1</div>
+        </div>
+        <div class="cal-cell">
+          <div class="num">24</div>
+          <div class="emoji">💤</div>
+          <div class="label">voľno</div>
+        </div>
+        <div class="cal-cell" style="border-color:var(--accent);">
+          <div class="num">25</div>
+          <div class="emoji">🏋️</div>
+          <div class="label">Deň 2</div>
+        </div>
+        <div class="cal-cell" style="border-color:#E8C547;">
+          <div class="num">26</div>
+          <div class="emoji">🌴</div>
+          <div class="label">dovolenka</div>
+        </div>
+        <div class="cal-cell" style="border-color:#E8C547;">
+          <div class="num">27</div>
+          <div class="emoji">🌴</div>
+          <div class="label">dovolenka</div>
+        </div>
+        <div class="cal-cell" style="border-color:#E8C547;">
+          <div class="num">28</div>
+          <div class="emoji">🌴</div>
+          <div class="label">dovolenka</div>
+        </div>
+
+        <!-- Week 5: 29-30 -->
+        <div class="cal-cell" style="border-color:#E8C547;">
+          <div class="num">29</div>
+          <div class="emoji">🌴</div>
+          <div class="label">dovolenka</div>
+        </div>
+        <div class="cal-cell" style="border-color:#E8C547;">
+          <div class="num">30</div>
+          <div class="emoji">🌴</div>
+          <div class="label">dovolenka</div>
+        </div>
+        <div class="cal-cell empty"></div>
+        <div class="cal-cell empty"></div>
+        <div class="cal-cell empty"></div>
+        <div class="cal-cell empty"></div>
+        <div class="cal-cell empty"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>★ Poznámky k kalendáru</h3>
+      <ul>
+        <li>🏋️ dni vychádzajú z Tobiasovho rozvrhu — ak sa jeho plán zmení (zmena/výjazd/nočná), tréningový deň sa môže posunúť. Appka funguje cyklicky (tab Tréning), takže poradie dní zostáva správne aj pri posune.</li>
+        <li>Od 26.6. (dovolenka) — drž sa toho, čo máš dostupné: bazén, beh, bodyweight cviky. Rotujúci cyklus môžeš pozastaviť alebo pokračovať s bodyweight verziami (povedz Tobiasovi/appke a doplníme).</li>
+        <li>Tento kalendár sa aktualizuje manuálne — keď sa zmení Tobiasov rozvrh na ďalší mesiac, pripravíme nový.</li>
+      </ul>
+    </div>
+  </div>
+  <div id="tab-rutina" class="tabsection">
+    <h1>⏰ Rutina</h1>
+
+    <p class="small">Tvoj denný rozvrh je flexibilný — tu sú dva typy dní podľa toho, či je v ten deň tréning. Časy sú orientačné, prispôsob si ich.</p>
+
+    <div class="pills" id="rut-pills">
+      <div class="pill active" data-day="tren" onclick="switchPill('rut-pills','tren')">Tréningový deň</div>
+      <div class="pill" data-day="vol" onclick="switchPill('rut-pills','vol')">Voľný deň</div>
+    </div>
+
+    <div id="rut-pills-content">
+
+      <div class="daycontent active" id="rut-pills-tren">
+        <div class="card">
+          <h3>Tréningový deň — orientačný rozvrh</h3>
+          <table>
+            <tr><th>Čas</th><th>Aktivita</th></tr>
+            <tr><td>Ráno</td><td>Liek (Co-Lisinostad) + raňajky, krátka prechádzka ak je čas</td></tr>
+            <tr><td>Doobeda</td><td>Domáce práce / bežný program, snaž sa o priebežný pohyb (krátke prechádzky)</td></tr>
+            <tr><td>Obed</td><td>Obed podľa jedálničku</td></tr>
+            <tr><td>Popoludnie</td><td>Snack, voľný čas, prechádzka (súčasť 10k krokov)</td></tr>
+            <tr><td>Pred tréningom</td><td>Ľahší snack ~1h pred (napr. ovocie), dostatok vody</td></tr>
+            <tr><td>Tréning (gym)</td><td>Podľa rotujúceho cyklu — 45-60 min vrátane rozcvičky</td></tr>
+            <tr><td>Po tréningu</td><td>Proteínový shake/jedlo do ~1h, doplnenie vody</td></tr>
+            <tr><td>Večera</td><td>Podľa jedálničku</td></tr>
+            <tr><td>Večer (18-19h)</td><td>Posledné jedlo (Snack 2) — najneskôr do 19-20h</td></tr>
+            <tr><td>Pred spaním</td><td>Príprava na ďalší deň, žiadne jedlo, dostatok spánku</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="daycontent" id="rut-pills-vol">
+        <div class="card">
+          <h3>Voľný deň — orientačný rozvrh</h3>
+          <table>
+            <tr><th>Čas</th><th>Aktivita</th></tr>
+            <tr><td>Ráno</td><td>Liek (Co-Lisinostad) + raňajky</td></tr>
+            <tr><td>Doobeda</td><td>Domáce práce, prechádzka (smerom k 10k krokov)</td></tr>
+            <tr><td>Obed</td><td>Obed podľa jedálničku</td></tr>
+            <tr><td>Popoludnie</td><td>Snack, voľný čas, prechádzka/aktivita</td></tr>
+            <tr><td>Večera</td><td>Podľa jedálničku</td></tr>
+            <tr><td>Večer (18-19h)</td><td>Posledné jedlo (Snack 2) — najneskôr do 19-20h</td></tr>
+            <tr><td>Pred spaním</td><td>Dostatok spánku, vyhýbať sa ťažkému jedlu na noc</td></tr>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card">
+      <h3>★ Dôležité návyky</h3>
+      <ul>
+        <li><b>Krokomer:</b> drž si aktuálnych ~10 000 krokov/deň — to je veľmi solídny základ a sám osebe významne pomáha s deficitom.</li>
+        <li><b>Liek na tlak:</b> ráno, pravidelne, podľa odporúčania lekára.</li>
+        <li><b>Voda:</b> aspoň 3l denne, rozlož si to počas dňa.</li>
+        <li><b>Spánok:</b> snaž sa o pravidelný čas chodenia spať, regenerácia je dôležitá pre recomp aj pre krvný tlak.</li>
+      </ul>
+    </div>
+  </div>
+  <div id="tab-suplementy" class="tabsection">
+    <h1>💊 Suplementy</h1>
+
+    <div class="warn">
+      Beriem do úvahy liek <b>Co-Lisinostad 20mg/12.5mg</b> (lisinopril + hydrochlorothiazid), ráno. Pred pridaním <b>akéhokoľvek</b> nového suplementu sa odporúča konzultácia s lekárom/lekárnikom, najmä pri liečenom vysokom tlaku.
+    </div>
+
+    <div class="card">
+      <h3>Omega 3 (náhrada za ryby)</h3>
+      <p><b>Dávkovanie:</b> 1-2g denne (EPA+DHA), s jedlom (najlepšie s obedom alebo večerou — lepšia vstrebateľnosť s tukmi z jedla).</p>
+      <p class="small">Žiadne priame interakcie s liekom na tlak. Pri vysokých dávkach môže mierne znižovať tlak — to je v tvojom prípade skôr výhoda, ale sleduj ako sa cítiš (závrate pri vstávaní a pod.).</p>
+    </div>
+
+    <div class="card">
+      <h3>Magnézium (horčík)</h3>
+      <p><b>Dávkovanie:</b> 200-300mg elementárneho magnézia, večer (pred spaním — pomáha aj s regeneráciou/spánkom).</p>
+      <p class="small">Hydrochlorothiazid (súčasť tvojho lieku) zvyšuje straty horčíka a draslíka cez obličky — doplnenie magnézia je vo všeobecnosti vhodné. Ak by si mal pocit búšenia srdca, kŕčov, alebo nezvyčajnú únavu, povedz to lekárovi (môže súvisieť s elektrolytmi).</p>
+    </div>
+
+    <div class="card">
+      <h3>Vitamín D3</h3>
+      <p><b>Dávkovanie:</b> 2000-4000 IU denne, ráno s jedlom (rozpustný v tukoch).</p>
+      <p class="small">Bežne odporúčaný doplnok, najmä v zime, ale aj celoročne ak je nedostatok slnka. Bez známych interakcií s tvojím liekom.</p>
+    </div>
+
+    <div class="card">
+      <h3>B-komplex / Folát (zvážiť)</h3>
+      <p><b>Dávkovanie:</b> podľa balenia, ráno s jedlom.</p>
+      <p class="small">Diuretiká (HCTZ) sa dlhodobo spájajú s odporúčaním doplniť folát. Nie je to nutnosť, ale môže byť prospešné — over si to s lekárom pri ďalšej kontrole.</p>
+    </div>
+
+    <div class="warn">
+      <b>Vyhýbaj sa:</b>
+      <ul style="margin-top:6px;">
+        <li>Soľným náhradám "no-salt" a doplnkom draslíka — pri lisinoprile riziko zvýšeného draslíka v krvi (hyperkaliémia).</li>
+        <li>Vysokým dávkam vitamínu A z viacerých zdrojov naraz (multivitamín + samostatný doplnok) — kumulácia.</li>
+        <li>"Cellular Sensitivity Stack" (Berberine, Chromium, Myo-inositol, NAC, Taurín) — tieto látky majú vlastné účinky na krvný cukor/tlak a metabolizmus liekov. <b>Neodporúčam pridávať bez toho, aby si to prebral s lekárom</b>, ktorý vie o tvojom lieku na tlak.</li>
+        <li>Kofeínové predtréningové suplementy/energy drinky — pri vysokom tlaku riziko ďalšieho zvýšenia.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>★ Časovanie — súhrn dňa</h3>
+      <table>
+        <tr><th>Kedy</th><th>Čo</th></tr>
+        <tr><td>Ráno</td><td>Liek na tlak (Co-Lisinostad), Vitamín D3, B-komplex (s raňajkami)</td></tr>
+        <tr><td>S obedom/večerou</td><td>Omega 3 (1-2g)</td></tr>
+        <tr><td>Pred spaním</td><td>Magnézium (200-300mg)</td></tr>
+      </table>
+    </div>
+  </div>
+  <div id="tab-makra" class="tabsection">
+    <h1>📊 Makrá</h1>
+
+    <div class="card">
+      <h3>Denný cieľ (priemer za týždeň)</h3>
+      <div class="macro-row"><span>Kalórie</span><span><b>~2 300 kcal</b></span></div>
+      <div class="macro-bar-bg"><div class="macro-bar-fill" style="width:100%;"></div></div>
+
+      <div class="macro-row"><span>Proteín</span><span><b>~195g</b> (~34%)</span></div>
+      <div class="macro-bar-bg"><div class="macro-bar-fill" style="width:68%; background:#1D9E75;"></div></div>
+
+      <div class="macro-row"><span>Sacharidy</span><span><b>~221g</b> (~38%)</span></div>
+      <div class="macro-bar-bg"><div class="macro-bar-fill" style="width:78%; background:#3B8FD9;"></div></div>
+
+      <div class="macro-row"><span>Tuky</span><span><b>~62g</b> (~24%)</span></div>
+      <div class="macro-bar-bg"><div class="macro-bar-fill" style="width:55%; background:#E8C547;"></div></div>
+
+      <p class="small">Hodnoty sú priemer naprieč 7 dňami jedálničku (rozsah ~2 230-2 360 kcal/deň). Proteín ~1.5g/kg telesnej hmotnosti — dostatočné pre ochranu svalov pri deficite.</p>
+    </div>
+
+    <div class="card">
+      <h3>Rozdelenie kalórií počas dňa</h3>
+      <table>
+        <tr><th>Jedlo</th><th>Podiel</th><th>Orientačne kcal</th></tr>
+        <tr><td>Raňajky</td><td>~25%</td><td>~580 kcal</td></tr>
+        <tr><td>Obed</td><td>~28%</td><td>~640 kcal</td></tr>
+        <tr><td>Snack</td><td>~12%</td><td>~280 kcal</td></tr>
+        <tr><td>Večera</td><td>~26%</td><td>~610 kcal</td></tr>
+        <tr><td>Snack 2 (voľný)</td><td>~9%</td><td>~190 kcal</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Odhad vitamínov/minerálov (% RHP)</h3>
+      <table>
+        <tr><th>Živina</th><th>Odhad denne</th><th>% RHP*</th></tr>
+        <tr><td>Vitamín D</td><td>~2-4 µg z jedla + doplnok 2000-4000 IU</td><td>~100%+ (s doplnkom)</td></tr>
+        <tr><td>Vitamín A</td><td>~600-800 µg (vajcia, mlieko, zelenina)</td><td>~80-100%</td></tr>
+        <tr><td>Vitamín C</td><td>~80-120mg (zelenina, ovocie)</td><td>~100-130%</td></tr>
+        <tr><td>Zinok</td><td>~10-13mg (mäso, vajcia)</td><td>~90-120%</td></tr>
+        <tr><td>Vitamín B12</td><td>~3-4 µg (mäso, mlieko, vajcia)</td><td>~120-160%</td></tr>
+        <tr><td>Draslík</td><td>~3000-3500mg (zemiaky, banán, zelenina)</td><td>~85-100%</td></tr>
+        <tr><td>Horčík</td><td>~280-350mg z jedla + doplnok 200-300mg</td><td>~130%+ (s doplnkom)</td></tr>
+        <tr><td>Vláknina</td><td>~28-35g (zelenina, ovsené vločky, pohánka)</td><td>~100-115%</td></tr>
+      </table>
+      <p class="small">*RHP = referenčná hodnota príjmu (orientačné, dospelý muž). Hodnoty sú odhady — pri pravidelnom stravovaní podľa jedálničku by mali byť bez výrazných deficitov, okrem vitamínu D, kde doplnok pomáha.</p>
+    </div>
+
+    <div class="card">
+      <h3>★ Konzistencia s jedálničkom</h3>
+      <p class="small">Tieto súčty vychádzajú priamo zo 7 dní v tabe Jedálniček. Ak sa zmení niektoré jedlo (napr. nahradenie receptu), treba prepočítať aj túto tabuľku, aby čísla zostali presné.</p>
+    </div>
+  </div>
+  <div id="tab-progres" class="tabsection">
+    <h1>📈 Progres</h1>
+
+    <p class="small">Sem si zapisuj váhy/opakovania po tréningoch a telesné merania po týždňoch. Toto sú len tabuľky na manuálny zápis (papierová poznámka funguje rovnako, ale takto to máš pri sebe v telefóne).</p>
+
+    <div class="card">
+      <h3>Deň 1 — Chrbát/Biceps</h3>
+      <table>
+        <tr><th>Dátum</th><th>Pulldown</th><th>Cable row</th><th>Curl</th><th>Planka</th></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="sek"></td></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="sek"></td></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="sek"></td></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="sek"></td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Deň 2 — Hrudník/Triceps</h3>
+      <table>
+        <tr><th>Dátum</th><th>Chest press</th><th>Pec fly</th><th>Pushdown</th><th>Planka</th></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="sek"></td></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="sek"></td></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="sek"></td></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="sek"></td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Deň 3 — Nohy/Core</h3>
+      <table>
+        <tr><th>Dátum</th><th>Leg press</th><th>Extension</th><th>Curl</th><th>RDL</th></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Deň 4 — Ramená/Core</h3>
+      <table>
+        <tr><th>Dátum</th><th>Overhead press</th><th>Lateral raise</th><th>Planka</th></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="sek"></td></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="sek"></td></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="sek"></td></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="kg×rep"></td><td><input type="text" placeholder="sek"></td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Telesné merania (týždenne)</h3>
+      <table>
+        <tr><th>Dátum</th><th>Váha (kg)</th><th>Pás (cm)</th><th>Krvný tlak</th></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg"></td><td><input type="text" placeholder="cm"></td><td><input type="text" placeholder="120/80"></td></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg"></td><td><input type="text" placeholder="cm"></td><td><input type="text" placeholder="120/80"></td></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg"></td><td><input type="text" placeholder="cm"></td><td><input type="text" placeholder="120/80"></td></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg"></td><td><input type="text" placeholder="cm"></td><td><input type="text" placeholder="120/80"></td></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg"></td><td><input type="text" placeholder="cm"></td><td><input type="text" placeholder="120/80"></td></tr>
+        <tr><td><input type="text" placeholder="dd.mm"></td><td><input type="text" placeholder="kg"></td><td><input type="text" placeholder="cm"></td><td><input type="text" placeholder="120/80"></td></tr>
+      </table>
+      <p class="small">Tip: meraj sa ráno na prázdny žalúdok, raz týždenne, vždy v rovnakom čase — váha kolíše deň na deň, dôležitý je trend za týždne.</p>
+    </div>
+
+    <div class="warn">
+      <b>Pozor:</b> hodnoty v tabuľkách sa <b>neukladajú automaticky</b> (appka nemá vlastné úložisko v tejto verzii) — po zatvorení/refreshi stránky sa zápisy stratia. Odporúčam si po tréningu odfotiť obrazovku, alebo zápisy prepisovať do poznámok v telefóne. Ak chceš, môžeme appku v ďalšom kroku upraviť tak, aby si zápisy ukladala (persistentné úložisko).
+    </div>
+  </div>
+</main>
+
+<script>
+  const NAV_ITEMS = [
+    { id: 'jedalnicek', emoji: '🍽', label: 'Jedálniček' },
+    { id: 'trening', emoji: '💪', label: 'Tréning' },
+    { id: 'kalendar', emoji: '📅', label: 'Kalendár' },
+    { id: 'rutina', emoji: '⏰', label: 'Rutina' },
+    { id: 'suplementy', emoji: '💊', label: 'Suplementy' },
+    { id: 'makra', emoji: '📊', label: 'Makrá' },
+    { id: 'progres', emoji: '📈', label: 'Progres' },
+  ];
+
+  function buildNav() {
+    const nav = document.getElementById('mainNav');
+    NAV_ITEMS.forEach((item, i) => {
+      const btn = document.createElement('button');
+      btn.textContent = `${item.emoji} ${item.label}`;
+      btn.dataset.tab = item.id;
+      if (i === 0) btn.classList.add('active');
+      btn.addEventListener('click', () => switchTab(item.id));
+      nav.appendChild(btn);
+    });
+  }
+
+  function switchTab(id) {
+    document.querySelectorAll('.tabsection').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    document.querySelector(`nav button[data-tab="${id}"]`).classList.add('active');
+  }
+
+  // Pills (day switchers) - generic handler
+  function switchPill(groupId, dayKey) {
+    document.querySelectorAll(`#${groupId} .pill`).forEach(el => el.classList.remove('active'));
+    document.querySelectorAll(`#${groupId}-content .daycontent`).forEach(el => el.classList.remove('active'));
+    document.querySelector(`#${groupId} .pill[data-day="${dayKey}"]`).classList.add('active');
+    document.getElementById(`${groupId}-${dayKey}`).classList.add('active');
+  }
+
+  buildNav();
+</script>
+
+</body>
+</html>
